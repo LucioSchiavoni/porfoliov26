@@ -6,27 +6,24 @@ import { HighlightedText } from "./highlighted-text"
 
 const expertiseAreas = [
     {
-        title: "Residential Design",
-        description: "Creating homes that balance beauty with livability, where every space serves both form and function.",
+        date: "2025 - Actualidad",
+        title: "Ciberseguridad",
+        description: "Ministerio de Educacion y Cultura",
         icon: Home,
     },
     {
-        title: "Commercial Architecture",
+        date: "2024 - 2025",
+        title: "Desarrollo web",
         description:
-            "Designing workspaces that inspire productivity and reflect the values of forward-thinking organizations.",
+            "Ministerio de Educacion y Cultura",
         icon: Building,
     },
     {
-        title: "Interior Architecture",
+        date: "2022 - 2025",
+        title: "Freelancer",
         description:
-            "Curating interiors that harmonize with their architectural shells, creating cohesive spatial experiences.",
+            "Desarrollo Fullstack",
         icon: Armchair,
-    },
-    {
-        title: "Urban Planning",
-        description:
-            "Shaping communities through thoughtful integration of public spaces, structures, and natural elements.",
-        icon: Trees,
     },
 ]
 
@@ -59,7 +56,7 @@ export function ExperienceSection() {
         <section id="services" ref={sectionRef} className="min-h-screen w-full py-32 md:py-29">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="max-w-3xl mb-20">
-                    <h2 className="text-6xl font-medium leading-[1.15] tracking-tight mb-6 text-balance lg:text-8xl">
+                    <h2 className="text-6xl font-medium leading-[1.15] tracking-tight mb-6 text-balance text-white lg:text-8xl">
                         Mi experiencia
                         <br />
                     </h2>
@@ -76,7 +73,7 @@ export function ExperienceSection() {
                                 ref={(el) => { itemRefs.current[index] = el }}
                                 className={`border-l-2 ${visibleItems.includes(index) ? 'border-[#3b82f6]' : 'border-white/20'} pl-6 transition-all duration-300 hover:border-[#3b82f6]/70`}
                             >
-                                <span className="text-white/40 text-sm font-mono">{exp.title}</span>
+                                <span className="text-white/40 text-sm font-mono">{exp.date}</span>
                                 <h3 className="text-white text-xl font-semibold mt-2">{exp.title}</h3>
                                 <p className="text-white/60 mt-2">{exp.description}</p>
                             </div>

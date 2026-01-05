@@ -9,35 +9,35 @@ gsap.registerPlugin(ScrollTrigger)
 const projects = [
     {
         id: 1,
-        title: "Villa Serena",
-        category: "Residential",
-        location: "Malibu, California",
+        title: "Repositorio de archivos",
+        category: "Proyecto MEC",
+        location: "Nodejs, Mysql, React, Typescript",
         year: "2024",
-        image: "/images/hously-1.png",
+        image: "/screen-rda.png",
     },
     {
         id: 2,
-        title: "The Glass Pavilion",
-        category: "Commercial",
-        location: "Tokyo, Japan",
+        title: "Inventario de equipos",
+        category: "Proyecto MEC",
+        location: "Nodejs, Mysql, React, Typescript",
         year: "2023",
-        image: "/images/hously-2.png",
+        image: "/inventario-proyect.png",
     },
     {
         id: 3,
-        title: "Casa Terra",
-        category: "Residential",
-        location: "Lisbon, Portugal",
+        title: "Todo en packaging",
+        category: "Proyecto Freelance",
+        location: "Nextjs, Sanity CMS, Typescript",
         year: "2023",
-        image: "/images/hously-3.png",
+        image: "/public/screen-rda.png",
     },
     {
         id: 4,
-        title: "Nordic Retreat",
-        category: "Hospitality",
-        location: "Oslo, Norway",
+        title: "Digital Dental Lab",
+        category: "Proyecto Freelance",
+        location: "Nextjs, Typescript",
         year: "2024",
-        image: "/images/hously-4.png",
+        image: "/public/screen-rda.png",
     },
 ]
 
@@ -233,9 +233,8 @@ export function Projects() {
                     >
                         <span className="absolute inset-0 rounded-full bg-white/30 transition-all duration-300" />
                         <span
-                            className={`absolute inset-0 rounded-full bg-[#3b82f6] transition-transform duration-300 ${
-                                activeIndex === index ? "scale-100" : "scale-0"
-                            }`}
+                            className={`absolute inset-0 rounded-full bg-[#3b82f6] transition-transform duration-300 ${activeIndex === index ? "scale-100" : "scale-0"
+                                }`}
                         />
                     </button>
                 ))}
