@@ -59,46 +59,29 @@ export function ExperienceSection() {
         <section id="services" ref={sectionRef} className="min-h-screen w-full py-32 md:py-29">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="max-w-3xl mb-20">
-                    <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-6">What We Do</p>
                     <h2 className="text-6xl font-medium leading-[1.15] tracking-tight mb-6 text-balance lg:text-8xl">
-                        <HighlightedText>Expertise</HighlightedText> refined
+                        Mi experiencia
                         <br />
-                        through practice
                     </h2>
                     <p className="text-muted-foreground text-lg leading-relaxed">
-                        Every project draws from decades of collective experience, resulting in architecture that is both innovative
-                        and timeless.
+                        Cada proyecto deriva de una experiencia colectiva de décadas, resultando en arquitectura que es innovadora y timeles    s.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-x-12 gap-y-16">
-                    {expertiseAreas.map((area, index) => {
-                        const Icon = area.icon
-                        return (
+                <div className="grid md:grid-cols-2 gap-12">
+                    <div className="space-y-8">
+                        {expertiseAreas.map((exp, index) => (
                             <div
-                                key={area.title}
-                                ref={(el) => {
-                                    itemRefs.current[index] = el
-                                }}
-                                data-index={index}
-                                className={`relative pl-8 border-l border-border transition-all duration-700 ${visibleItems.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                                    }`}
-                                style={{ transitionDelay: `${index * 150}ms` }}
+                                key={exp.title}
+                                ref={(el) => { itemRefs.current[index] = el }}
+                                className={`border-l-2 ${visibleItems.includes(index) ? 'border-[#3b82f6]' : 'border-white/20'} pl-6 transition-all duration-300 hover:border-[#3b82f6]/70`}
                             >
-                                <div
-                                    className={`transition-all duration-1000 ${visibleItems.includes(index) ? "animate-draw-stroke" : ""
-                                        }`}
-                                    style={{
-                                        transitionDelay: `${index * 150}ms`,
-                                    }}
-                                >
-                                    <Icon className="w-10 h-10 mb-4 text-foreground" strokeWidth={1.25} />
-                                </div>
-                                <h3 className="text-xl font-medium mb-4">{area.title}</h3>
-                                <p className="text-muted-foreground leading-relaxed">{area.description}</p>
+                                <span className="text-white/40 text-sm font-mono">{exp.title}</span>
+                                <h3 className="text-white text-xl font-semibold mt-2">{exp.title}</h3>
+                                <p className="text-white/60 mt-2">{exp.description}</p>
                             </div>
-                        )
-                    })}
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

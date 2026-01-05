@@ -1,11 +1,5 @@
-import ContactSection from "@/components/contact-section";
-import TypewriterEffectSmoothDemo from "@/components/typewriter-effect";
+import HomePage from "@/components/contact-section";
 
 export default function Home() {
-  return (
-    <main>
-      <TypewriterEffectSmoothDemo />
-      <ContactSection />
-    </main>
-  );
+  return <HomePage />;
 }

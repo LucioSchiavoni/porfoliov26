@@ -1,7 +1,10 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { useRef, useEffect, useState } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 const projects = [
     {
@@ -26,7 +29,7 @@ const projects = [
         category: "Residential",
         location: "Lisbon, Portugal",
         year: "2023",
-        image: "/images/hously-3.png", // Updated path to /images/ subdirectory
+        image: "/images/hously-3.png",
     },
     {
         id: 4,
@@ -34,91 +37,209 @@ const projects = [
         category: "Hospitality",
         location: "Oslo, Norway",
         year: "2024",
-        image: "/images/hously-4.png", // Updated path to /images/ subdirectory
+        image: "/images/hously-4.png",
     },
 ]
 
 export function Projects() {
-    const [hoveredId, setHoveredId] = useState<number | null>(null)
-    const [revealedImages, setRevealedImages] = useState<Set<number>>(new Set())
-    const imageRefs = useRef<(HTMLDivElement | null)[]>([])
+    const containerRef = useRef<HTMLDivElement>(null)
+    const slidesRef = useRef<(HTMLDivElement | null)[]>([])
+    const dotsRef = useRef<(HTMLButtonElement | null)[]>([])
+    const [isMobile, setIsMobile] = useState<boolean | null>(null)
+    const [activeIndex, setActiveIndex] = useState(0)
 
+    // Mobile detection - runs only on client after hydration
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const index = imageRefs.current.indexOf(entry.target as HTMLDivElement)
-                        if (index !== -1) {
-                            setRevealedImages((prev) => new Set(prev).add(projects[index].id))
-                        }
-                    }
-                })
-            },
-            { threshold: 0.2 },
-        )
-
-        imageRefs.current.forEach((ref) => {
-            if (ref) observer.observe(ref)
-        })
-
-        return () => observer.disconnect()
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener("resize", checkMobile)
+        return () => window.removeEventListener("resize", checkMobile)
     }, [])
 
-    return (
-        <section id="work" className="flex min-h-screen w-full flex-col justify-center px-6 py-24 md:px-12 bg-secondary/50">
-            <div className="container mx-auto px-6 md:px-12">
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-                    <div>
-                        <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-6">Selected Works</p>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight">Featured Projects</h2>
-                    </div>
-                    <a
-                        href="#"
-                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
+    // GSAP ScrollTrigger with 3D flip animation
+    useEffect(() => {
+        if (isMobile === null || isMobile) return
+
+        const ctx = gsap.context(() => {
+            const totalSlides = projects.length
+            const totalTransitions = totalSlides - 1
+
+            // Set initial states
+            slidesRef.current.forEach((slide, index) => {
+                if (!slide) return
+                if (index === 0) {
+                    gsap.set(slide, { rotateY: 0, opacity: 1, zIndex: totalSlides })
+                } else {
+                    gsap.set(slide, { rotateY: -90, opacity: 0, zIndex: totalSlides - index })
+                }
+            })
+
+            ScrollTrigger.create({
+                trigger: containerRef.current,
+                start: "top top",
+                end: `+=${totalTransitions * 100}%`,
+                pin: true,
+                scrub: 0.8,
+                onUpdate: (self) => {
+                    const progress = self.progress
+                    const rawSlideIndex = progress * totalTransitions
+                    const currentSlideIndex = Math.min(Math.floor(rawSlideIndex), totalTransitions - 1)
+                    const slideProgress = rawSlideIndex - currentSlideIndex
+
+                    setActiveIndex(Math.round(rawSlideIndex))
+
+                    slidesRef.current.forEach((slide, index) => {
+                        if (!slide) return
+
+                        if (index < currentSlideIndex) {
+                            // Already passed - rotated out
+                            gsap.set(slide, {
+                                rotateY: 90,
+                                opacity: 0,
+                                zIndex: 0,
+                            })
+                        } else if (index === currentSlideIndex) {
+                            // Current slide - rotating out
+                            gsap.set(slide, {
+                                rotateY: slideProgress * 90,
+                                opacity: 1 - slideProgress * 0.5,
+                                zIndex: totalSlides - index,
+                            })
+                        } else if (index === currentSlideIndex + 1) {
+                            // Next slide - rotating in
+                            gsap.set(slide, {
+                                rotateY: -90 + slideProgress * 90,
+                                opacity: 0.5 + slideProgress * 0.5,
+                                zIndex: totalSlides - index + 1,
+                            })
+                        } else {
+                            // Future slides - hidden
+                            gsap.set(slide, {
+                                rotateY: -90,
+                                opacity: 0,
+                                zIndex: 0,
+                            })
+                        }
+                    })
+                },
+            })
+        }, containerRef)
+
+        return () => ctx.revert()
+    }, [isMobile])
+
+    // Mobile fallback - simple scroll with snap
+    if (isMobile === true) {
+        return (
+            <section id="work" className="bg-[#0a0a0a]">
+                {projects.map((project, index) => (
+                    <div
+                        key={project.id}
+                        className="relative h-screen w-full overflow-hidden"
                     >
-                        View all projects
-                        <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </a>
-                </div>
+                        {/* Background Image */}
+                        <div className="absolute inset-0">
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                className="h-full w-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+                        </div>
 
-                <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-                    {projects.map((project, index) => (
-                        <article
-                            key={project.id}
-                            className="group cursor-pointer"
-                            onMouseEnter={() => setHoveredId(project.id)}
-                            onMouseLeave={() => setHoveredId(null)}
-                        >
-                            <div ref={(el) => { imageRefs.current[index] = el }} className="relative overflow-hidden aspect-[4/3] mb-6">
-                                <img
-                                    src={project.image || "/placeholder.svg"}
-                                    alt={project.title}
-                                    className={`w-full h-full object-cover transition-transform duration-700 ${hoveredId === project.id ? "scale-105" : "scale-100"
-                                        }`}
-                                />
-                                <div
-                                    className="absolute inset-0 bg-primary origin-top"
-                                    style={{
-                                        transform: revealedImages.has(project.id) ? "scaleY(0)" : "scaleY(1)",
-                                        transition: "transform 1.5s cubic-bezier(0.76, 0, 0.24, 1)", // Increased duration from 0.6s to 1.5s for slower reveal
-                                    }}
-                                />
+                        {/* Content Overlay */}
+                        <div className="relative z-10 flex h-full flex-col justify-end p-8">
+                            <span className="text-[#3b82f6] text-sm font-mono mb-4">
+                                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                            </span>
+                            <h2 className="text-white text-4xl font-medium mb-4">
+                                {project.title}
+                            </h2>
+                            <div className="flex gap-4 text-white/60 text-sm">
+                                <span>{project.category}</span>
+                                <span className="text-white/30">|</span>
+                                <span>{project.location}</span>
                             </div>
+                        </div>
+                    </div>
+                ))}
+            </section>
+        )
+    }
 
-                            <div className="flex items-start justify-between gap-4">
-                                <div>
-                                    <h3 className="text-xl font-medium mb-2 group-hover:underline underline-offset-4">{project.title}</h3>
-                                    <p className="text-muted-foreground text-sm">
-                                        {project.category} · {project.location}
-                                    </p>
-                                </div>
-                                <span className="text-muted-foreground/60 text-sm">{project.year}</span>
+    return (
+        <section
+            ref={containerRef}
+            id="work"
+            className="relative h-screen w-full overflow-hidden bg-[#0a0a0a]"
+            style={{ perspective: "1500px" }}
+        >
+            {/* Slides Container */}
+            <div
+                className="relative h-full w-full"
+                style={{ transformStyle: "preserve-3d" }}
+            >
+                {projects.map((project, index) => (
+                    <div
+                        key={project.id}
+                        ref={(el) => {
+                            slidesRef.current[index] = el
+                        }}
+                        className="absolute inset-0 h-full w-full"
+                        style={{
+                            transformStyle: "preserve-3d",
+                            backfaceVisibility: "hidden",
+                            transformOrigin: "left center",
+                        }}
+                    >
+                        {/* Background Image */}
+                        <div className="absolute inset-0">
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                className="h-full w-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+                        </div>
+
+                        {/* Content Overlay */}
+                        <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-16 lg:p-24">
+                            <span className="text-[#3b82f6] text-sm font-mono mb-4">
+                                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                            </span>
+                            <h2 className="text-white text-4xl md:text-6xl lg:text-7xl font-medium mb-4">
+                                {project.title}
+                            </h2>
+                            <div className="flex gap-4 text-white/60 text-sm md:text-base">
+                                <span>{project.category}</span>
+                                <span className="text-white/30">|</span>
+                                <span>{project.location}</span>
                             </div>
-                        </article>
-                    ))}
-                </div>
+                        </div>
+                    </div>
+                ))}
             </div>
+
+            {/* Dot Navigation */}
+            <nav className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+                {projects.map((project, index) => (
+                    <button
+                        key={project.id}
+                        ref={(el) => {
+                            dotsRef.current[index] = el
+                        }}
+                        className="group relative w-3 h-3"
+                        aria-label={`Go to ${project.title}`}
+                    >
+                        <span className="absolute inset-0 rounded-full bg-white/30 transition-all duration-300" />
+                        <span
+                            className={`absolute inset-0 rounded-full bg-[#3b82f6] transition-transform duration-300 ${
+                                activeIndex === index ? "scale-100" : "scale-0"
+                            }`}
+                        />
+                    </button>
+                ))}
+            </nav>
         </section>
     )
 }
