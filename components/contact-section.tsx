@@ -1,8 +1,6 @@
 "use client"
 
-import { CustomCursor } from "@/components/custom-cursor"
 import { ExperienceSection } from "@/components/sections/services-section"
-import { AboutSection } from "@/components/sections/about-section"
 import { ContactSection } from "@/components/sections/contact-section"
 import { TypewriterEffectSmooth } from "./ui/typewriter"
 import { Projects } from "./proyects"
@@ -61,7 +59,6 @@ export default function HomePage() {
 
     return (
         <>
-            <CustomCursor />
 
             <nav
                 className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-center px-6 py-6 transition-opacity duration-700 md:px-12  backdrop-blur-sm ${isLoaded ? "opacity-100" : "opacity-0"

@@ -64,6 +64,25 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+  background-color: #000000;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/background.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
 }
 
 * {

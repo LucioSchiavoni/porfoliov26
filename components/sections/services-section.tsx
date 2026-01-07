@@ -60,9 +60,6 @@ export function ExperienceSection() {
                         Mi experiencia
                         <br />
                     </h2>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                        Cada proyecto deriva de una experiencia colectiva de décadas, resultando en arquitectura que es innovadora y timeles    s.
-                    </p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-12">

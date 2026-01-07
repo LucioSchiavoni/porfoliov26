@@ -3,7 +3,7 @@
 import { Mail, MapPin } from "lucide-react"
 import { useReveal } from "@/hooks/use-reveal"
 import { useState, type FormEvent } from "react"
-import { MagneticButton } from "@/components/magnetic-button"
+
 
 export function ContactSection() {
   const { ref, isVisible } = useReveal(0.3)
@@ -155,14 +155,12 @@ export function ContactSection() {
                   }`}
                 style={{ transitionDelay: "650ms" }}
               >
-                <MagneticButton
-                  variant="primary"
-                  size="lg"
+                <button
                   className="w-full bg-white text-black disabled:opacity-50"
                   onClick={isSubmitting ? undefined : undefined}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
-                </MagneticButton>
+                </button>
                 {submitSuccess && (
                   <p className="mt-3 text-center font-mono text-sm text-white/80">Message sent successfully!</p>
                 )}

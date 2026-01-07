@@ -9,35 +9,39 @@ gsap.registerPlugin(ScrollTrigger)
 const projects = [
     {
         id: 1,
+        title: "Digital Dental Lab",
+        category: "Proyecto Freelance",
+        location: "Nextjs, Typescript",
+        year: "2024",
+        image: "/screen-dentallab.png",
+        bgColor: "#dc2626", // rojo
+    },
+    {
+        id: 2,
+        title: "Todo en packaging",
+        category: "Proyecto Freelance",
+        location: "Nextjs, Sanity CMS, Typescript",
+        year: "2023",
+        image: "/screen-todo.png",
+        bgColor: "#eab308", // amarillo
+    },
+    {
+        id: 3,
         title: "Repositorio de archivos",
         category: "Proyecto MEC",
         location: "Nodejs, Mysql, React, Typescript",
         year: "2024",
         image: "/screen-rda.png",
+        bgColor: "#16a34a", // verde
     },
     {
-        id: 2,
+        id: 4,
         title: "Inventario de equipos",
         category: "Proyecto MEC",
         location: "Nodejs, Mysql, React, Typescript",
         year: "2023",
         image: "/inventario-proyect.png",
-    },
-    {
-        id: 3,
-        title: "Todo en packaging",
-        category: "Proyecto Freelance",
-        location: "Nextjs, Sanity CMS, Typescript",
-        year: "2023",
-        image: "/public/screen-rda.png",
-    },
-    {
-        id: 4,
-        title: "Digital Dental Lab",
-        category: "Proyecto Freelance",
-        location: "Nextjs, Typescript",
-        year: "2024",
-        image: "/public/screen-rda.png",
+        bgColor: "#2563eb", // azul
     },
 ]
 
@@ -135,31 +139,31 @@ export function Projects() {
                 {projects.map((project, index) => (
                     <div
                         key={project.id}
-                        className="relative h-screen w-full overflow-hidden"
+                        className="relative h-screen w-full overflow-hidden flex flex-col"
+                        style={{ backgroundColor: project.bgColor }}
                     >
-                        {/* Background Image */}
-                        <div className="absolute inset-0">
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                className="h-full w-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
-                        </div>
-
-                        {/* Content Overlay */}
-                        <div className="relative z-10 flex h-full flex-col justify-end p-8">
-                            <span className="text-[#3b82f6] text-sm font-mono mb-4">
+                        {/* Content */}
+                        <div className="flex-1 flex flex-col justify-center p-8">
+                            <span className="text-white/80 text-sm font-mono mb-4">
                                 {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                             </span>
                             <h2 className="text-white text-4xl font-medium mb-4">
                                 {project.title}
                             </h2>
-                            <div className="flex gap-4 text-white/60 text-sm">
+                            <div className="flex flex-wrap gap-2 text-white/80 text-sm">
                                 <span>{project.category}</span>
-                                <span className="text-white/30">|</span>
+                                <span className="text-white/50">|</span>
                                 <span>{project.location}</span>
                             </div>
+                        </div>
+
+                        {/* Project Image */}
+                        <div className="px-8 pb-8">
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                className="w-full h-auto rounded-lg shadow-2xl"
+                            />
                         </div>
                     </div>
                 ))}
@@ -190,30 +194,33 @@ export function Projects() {
                             transformStyle: "preserve-3d",
                             backfaceVisibility: "hidden",
                             transformOrigin: "left center",
+                            backgroundColor: project.bgColor,
                         }}
                     >
-                        {/* Background Image */}
-                        <div className="absolute inset-0">
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                className="h-full w-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
-                        </div>
+                        {/* Content Layout - Left text, Right image */}
+                        <div className="relative z-10 flex h-full items-center p-8 md:p-16 lg:p-24">
+                            {/* Left Side - Text Content */}
+                            <div className="flex-1 flex flex-col justify-center">
+                                <span className="text-white/80 text-sm font-mono mb-4">
+                                    {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                                </span>
+                                <h2 className="text-white text-4xl md:text-6xl lg:text-7xl font-medium mb-4">
+                                    {project.title}
+                                </h2>
+                                <div className="flex gap-4 text-white/80 text-sm md:text-base">
+                                    <span>{project.category}</span>
+                                    <span className="text-white/50">|</span>
+                                    <span>{project.location}</span>
+                                </div>
+                            </div>
 
-                        {/* Content Overlay */}
-                        <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-16 lg:p-24">
-                            <span className="text-[#3b82f6] text-sm font-mono mb-4">
-                                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-                            </span>
-                            <h2 className="text-white text-4xl md:text-6xl lg:text-7xl font-medium mb-4">
-                                {project.title}
-                            </h2>
-                            <div className="flex gap-4 text-white/60 text-sm md:text-base">
-                                <span>{project.category}</span>
-                                <span className="text-white/30">|</span>
-                                <span>{project.location}</span>
+                            {/* Right Side - Project Image */}
+                            <div className="flex-1 flex justify-end items-center">
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="max-w-full max-h-[70vh] w-auto h-auto rounded-lg shadow-2xl"
+                                />
                             </div>
                         </div>
                     </div>
