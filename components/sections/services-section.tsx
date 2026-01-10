@@ -1,29 +1,22 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Home, Building, Armchair, Trees } from "lucide-react"
-import { HighlightedText } from "./highlighted-text"
 
 const expertiseAreas = [
     {
         date: "2025 - Actualidad",
         title: "Ciberseguridad",
         description: "Ministerio de Educacion y Cultura",
-        icon: Home,
     },
     {
         date: "2024 - 2025",
         title: "Desarrollo web",
-        description:
-            "Ministerio de Educacion y Cultura",
-        icon: Building,
+        description: "Ministerio de Educacion y Cultura",
     },
     {
         date: "2022 - 2025",
         title: "Freelancer",
-        description:
-            "Desarrollo Fullstack",
-        icon: Armchair,
+        description: "Desarrollo Fullstack",
     },
 ]
 
@@ -52,9 +45,10 @@ export function ExperienceSection() {
         return () => observer.disconnect()
     }, [])
 
+
     return (
-        <section id="services" ref={sectionRef} className="min-h-screen w-full py-32 md:py-29">
-            <div className="container mx-auto px-6 md:px-12">
+        <section id="services" ref={sectionRef} className="relative w-full min-h-screen bg-[#0a0a0a] py-20 md:py-24">
+            <div className="container mx-auto px-6 md:px-12 lg:px-16">
                 <div className="max-w-3xl mb-20">
                     <h2 className="text-6xl font-medium leading-[1.15] tracking-tight mb-6 text-balance text-white lg:text-8xl">
                         Mi experiencia

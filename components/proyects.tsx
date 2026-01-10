@@ -50,7 +50,6 @@ export function Projects() {
     const slidesRef = useRef<(HTMLDivElement | null)[]>([])
     const dotsRef = useRef<(HTMLButtonElement | null)[]>([])
     const [isMobile, setIsMobile] = useState<boolean | null>(null)
-    const [activeIndex, setActiveIndex] = useState(0)
 
     // Mobile detection - runs only on client after hydration
     useEffect(() => {
@@ -78,51 +77,77 @@ export function Projects() {
                 }
             })
 
+            // Initial dot state
+            dotsRef.current.forEach((dot, index) => {
+                if (dot) {
+                    gsap.set(dot.querySelector('span:last-child'), { scale: index === 0 ? 1 : 0 })
+                }
+            })
+
             ScrollTrigger.create({
                 trigger: containerRef.current,
                 start: "top top",
                 end: `+=${totalTransitions * 100}%`,
                 pin: true,
-                scrub: 0.8,
+                scrub: 0.5,
+                anticipatePin: 1,
                 onUpdate: (self) => {
                     const progress = self.progress
                     const rawSlideIndex = progress * totalTransitions
                     const currentSlideIndex = Math.min(Math.floor(rawSlideIndex), totalTransitions - 1)
-                    const slideProgress = rawSlideIndex - currentSlideIndex
 
-                    setActiveIndex(Math.round(rawSlideIndex))
+                    // Asegurar que el último índice se maneje correctamente
+                    const activeIdx = Math.round(rawSlideIndex)
+
+                    // Update dots directly without re-render
+                    dotsRef.current.forEach((dot, index) => {
+                        if (!dot) return
+                        const bg = dot.querySelector('span:last-child')
+                        if (index === activeIdx) {
+                            gsap.to(bg, { scale: 1, duration: 0.2, overwrite: true })
+                        } else {
+                            gsap.to(bg, { scale: 0, duration: 0.2, overwrite: true })
+                        }
+                    })
+
+                    // Handle final state lock
+                    if (progress >= 0.99) {
+                        slidesRef.current.forEach((slide, index) => {
+                            if (!slide) return
+                            if (index === totalSlides - 1) {
+                                gsap.set(slide, { rotateY: 0, opacity: 1, zIndex: totalSlides })
+                            } else {
+                                gsap.set(slide, { rotateY: 90, opacity: 0, zIndex: 0 })
+                            }
+                        })
+                        return
+                    }
+
+                    const slideProgress = rawSlideIndex - currentSlideIndex
 
                     slidesRef.current.forEach((slide, index) => {
                         if (!slide) return
 
                         if (index < currentSlideIndex) {
-                            // Already passed - rotated out
-                            gsap.set(slide, {
-                                rotateY: 90,
-                                opacity: 0,
-                                zIndex: 0,
-                            })
+                            // Already passed
+                            gsap.set(slide, { rotateY: 90, opacity: 0, zIndex: 0 })
                         } else if (index === currentSlideIndex) {
-                            // Current slide - rotating out
+                            // Current - exiting
                             gsap.set(slide, {
                                 rotateY: slideProgress * 90,
                                 opacity: 1 - slideProgress * 0.5,
                                 zIndex: totalSlides - index,
                             })
                         } else if (index === currentSlideIndex + 1) {
-                            // Next slide - rotating in
+                            // Next - entering
                             gsap.set(slide, {
                                 rotateY: -90 + slideProgress * 90,
                                 opacity: 0.5 + slideProgress * 0.5,
                                 zIndex: totalSlides - index + 1,
                             })
                         } else {
-                            // Future slides - hidden
-                            gsap.set(slide, {
-                                rotateY: -90,
-                                opacity: 0,
-                                zIndex: 0,
-                            })
+                            // Future
+                            gsap.set(slide, { rotateY: -90, opacity: 0, zIndex: 0 })
                         }
                     })
                 },
@@ -131,6 +156,13 @@ export function Projects() {
 
         return () => ctx.revert()
     }, [isMobile])
+
+    // Wait for hydration to determine mobile/desktop
+    if (isMobile === null) {
+        return (
+            <section id="work" className="h-screen w-full bg-[#0a0a0a]" />
+        )
+    }
 
     // Mobile fallback - simple scroll with snap
     if (isMobile === true) {
@@ -227,8 +259,8 @@ export function Projects() {
                 ))}
             </div>
 
-            {/* Dot Navigation */}
-            <nav className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+            {/* Dot Navigation - absolute instead of fixed to stay within section */}
+            <nav className="absolute right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3">
                 {projects.map((project, index) => (
                     <button
                         key={project.id}
@@ -238,11 +270,8 @@ export function Projects() {
                         className="group relative w-3 h-3"
                         aria-label={`Go to ${project.title}`}
                     >
-                        <span className="absolute inset-0 rounded-full bg-white/30 transition-all duration-300" />
-                        <span
-                            className={`absolute inset-0 rounded-full bg-[#3b82f6] transition-transform duration-300 ${activeIndex === index ? "scale-100" : "scale-0"
-                                }`}
-                        />
+                        <span className="absolute inset-0 rounded-full bg-white/30" />
+                        <span className="absolute inset-0 rounded-full bg-[#3b82f6] scale-0" />
                     </button>
                 ))}
             </nav>
