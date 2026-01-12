@@ -3,9 +3,11 @@
 import { Mail, MapPin } from "lucide-react"
 import { useReveal } from "@/hooks/use-reveal"
 import { useState, type FormEvent } from "react"
+import { useLanguage } from "@/context/language-context"
 
 
 export function ContactSection() {
+  const { t } = useLanguage()
   const { ref, isVisible } = useReveal(0.3)
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -36,7 +38,7 @@ export function ContactSection() {
     <section
       id="contact"
       ref={ref}
-      className="flex min-h-screen w-full items-center bg-[#0a0a0a] px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
+      className="flex min-h-screen w-full items-center px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:gap-16 lg:gap-24">
@@ -45,12 +47,12 @@ export function ContactSection() {
               className={`mb-6 transition-all duration-700 md:mb-12 ${isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
                 }`}
             >
-              <h2 className="mb-2 font-sans text-4xl font-light leading-[1.05] tracking-tight text-white md:mb-3 md:text-7xl lg:text-8xl">
-                Let's
+              <h2 className="mb-2 font-sans text-4xl font-light leading-[1.05] tracking-tight text-foreground md:mb-3 md:text-7xl lg:text-8xl">
+                {t.contact.title}
                 <br />
-                talk
+
               </h2>
-              <p className="font-mono text-xs  text-white">/ Get in touch</p>
+              <p className="font-mono text-xs text-foreground">{t.contact.subtitle}</p>
             </div>
 
             <div className="space-y-4 md:space-y-8">
@@ -61,11 +63,11 @@ export function ContactSection() {
                 style={{ transitionDelay: "200ms" }}
               >
                 <div className="mb-1 flex items-center gap-2">
-                  <Mail className="h-3 w-3 text-white" />
-                  <span className="font-mono text-xs text-white">Email</span>
+                  <Mail className="h-3 w-3 text-foreground" />
+                  <span className="font-mono text-xs text-foreground">{t.contact.email}</span>
                 </div>
-                <p className="text-base text-white transition-colors group-hover:text-foreground/70 md:text-2xl">
-                  hello@studio.com
+                <p className="text-base text-foreground transition-colors group-hover:text-foreground/70 md:text-2xl">
+                  luciosc1798@gmail.com
                 </p>
               </a>
 
@@ -75,10 +77,10 @@ export function ContactSection() {
                 style={{ transitionDelay: "350ms" }}
               >
                 <div className="mb-1 flex items-center gap-2">
-                  <MapPin className="h-3 w-3 text-white" />
-                  <span className="font-mono text-xs text-white">Location</span>
+                  <MapPin className="h-3 w-3 text-foreground" />
+                  <span className="font-mono text-xs text-foreground">{t.contact.location}</span>
                 </div>
-                <p className="text-base text-white md:text-2xl">New York, NY</p>
+                <p className="text-base text-foreground md:text-2xl">Montevideo, Uruguay</p>
               </div>
 
               <div
@@ -86,11 +88,11 @@ export function ContactSection() {
                   }`}
                 style={{ transitionDelay: "500ms" }}
               >
-                {["Twitter", "Instagram", "LinkedIn", "Dribbble"].map((social, i) => (
+                {["Instagram", "LinkedIn", "Github"].map((social, i) => (
                   <a
                     key={social}
                     href="#"
-                    className="border-b border-transparent font-mono text-xs text-white transition-all hover:border-foreground/60 hover:text-foreground/90"
+                    className="border-b border-transparent font-mono text-xs text-foreground transition-all hover:border-foreground/60 hover:text-foreground/90"
                   >
                     {social}
                   </a>
@@ -107,14 +109,14 @@ export function ContactSection() {
                   }`}
                 style={{ transitionDelay: "200ms" }}
               >
-                <label className="mb-1 block font-mono text-xs text-white md:mb-2">Name</label>
+                <label className="mb-1 block font-mono text-xs text-foreground md:mb-2">{t.contact.form.name}</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="w-full border-b border-white/30 bg-transparent py-1.5 text-sm text-white placeholder:text-white/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
-                  placeholder="Your name"
+                  className="w-full border-b border-foreground/30 bg-transparent py-1.5 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
+                  placeholder={t.contact.form.namePlaceholder}
                 />
               </div>
 
@@ -123,14 +125,14 @@ export function ContactSection() {
                   }`}
                 style={{ transitionDelay: "350ms" }}
               >
-                <label className="mb-1 block font-mono text-xs text-white md:mb-2">Email</label>
+                <label className="mb-1 block font-mono text-xs text-foreground md:mb-2">{t.contact.form.email}</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="w-full border-b border-white/30 bg-transparent py-1.5 text-sm text-white placeholder:text-white/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
-                  placeholder="your@email.com"
+                  className="w-full border-b border-foreground/30 bg-transparent py-1.5 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
+                  placeholder={t.contact.form.emailPlaceholder}
                 />
               </div>
 
@@ -139,14 +141,14 @@ export function ContactSection() {
                   }`}
                 style={{ transitionDelay: "500ms" }}
               >
-                <label className="mb-1 block font-mono text-xs text-white md:mb-2">Message</label>
+                <label className="mb-1 block font-mono text-xs text-foreground md:mb-2">{t.contact.form.message}</label>
                 <textarea
                   rows={3}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   required
-                  className="w-full border-b border-white/30 bg-transparent py-1.5 text-sm text-white placeholder:text-white/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
-                  placeholder="Tell us about your project..."
+                  className="w-full border-b border-foreground/30 bg-transparent py-1.5 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
+                  placeholder={t.contact.form.messagePlaceholder}
                 />
               </div>
 
@@ -156,13 +158,13 @@ export function ContactSection() {
                 style={{ transitionDelay: "650ms" }}
               >
                 <button
-                  className="w-full bg-white text-black disabled:opacity-50"
+                  className="w-full rounded-md bg-foreground p-1 font-semibold text-background hover:scale-105 hover:opacity-90 transition-all duration-300 disabled:opacity-50"
                   onClick={isSubmitting ? undefined : undefined}
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? t.contact.form.sending : t.contact.form.send}
                 </button>
                 {submitSuccess && (
-                  <p className="mt-3 text-center font-mono text-sm text-white/80">Message sent successfully!</p>
+                  <p className="mt-3 text-center font-mono text-sm text-foreground/80">{t.contact.form.success}</p>
                 )}
               </div>
             </form>

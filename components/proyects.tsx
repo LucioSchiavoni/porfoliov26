@@ -3,49 +3,45 @@
 import { useRef, useEffect, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useLanguage } from "@/context/language-context"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const projects = [
+const projectsData = [
     {
         id: 1,
-        title: "Digital Dental Lab",
-        category: "Proyecto Freelance",
         location: "Nextjs, Typescript",
         year: "2024",
         image: "/screen-dentallab.png",
-        bgColor: "#dc2626", // rojo
     },
     {
         id: 2,
-        title: "Todo en packaging",
-        category: "Proyecto Freelance",
         location: "Nextjs, Sanity CMS, Typescript",
         year: "2023",
         image: "/screen-todo.png",
-        bgColor: "#eab308", // amarillo
     },
     {
         id: 3,
-        title: "Repositorio de archivos",
-        category: "Proyecto MEC",
         location: "Nodejs, Mysql, React, Typescript",
         year: "2024",
         image: "/screen-rda.png",
-        bgColor: "#16a34a", // verde
     },
     {
         id: 4,
-        title: "Inventario de equipos",
-        category: "Proyecto MEC",
         location: "Nodejs, Mysql, React, Typescript",
         year: "2023",
         image: "/inventario-proyect.png",
-        bgColor: "#2563eb", // azul
     },
 ]
 
 export function Projects() {
+    const { t } = useLanguage()
+
+    const projects = projectsData.map((project, index) => ({
+        ...project,
+        title: t.projects.items[index]?.title || project.id.toString(),
+        category: t.projects.items[index]?.category || "",
+    }))
     const containerRef = useRef<HTMLDivElement>(null)
     const slidesRef = useRef<(HTMLDivElement | null)[]>([])
     const dotsRef = useRef<(HTMLButtonElement | null)[]>([])
@@ -160,41 +156,49 @@ export function Projects() {
     // Wait for hydration to determine mobile/desktop
     if (isMobile === null) {
         return (
-            <section id="work" className="h-screen w-full bg-[#0a0a0a]" />
+            <section id="work" className="h-screen w-full" />
         )
     }
 
     // Mobile fallback - simple scroll with snap
     if (isMobile === true) {
         return (
-            <section id="work" className="bg-[#0a0a0a]">
+            <section id="work">
                 {projects.map((project, index) => (
                     <div
                         key={project.id}
                         className="relative h-screen w-full overflow-hidden flex flex-col"
-                        style={{ backgroundColor: project.bgColor }}
                     >
+                        {/* Glass overlay effect */}
+                        <div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                                background: "radial-gradient(ellipse at 30% 20%, var(--foreground) 0%, transparent 50%)",
+                                opacity: 0.04,
+                            }}
+                        />
+
                         {/* Content */}
-                        <div className="flex-1 flex flex-col justify-center p-8">
-                            <span className="text-white/80 text-sm font-mono mb-4">
+                        <div className="relative z-10 flex-1 flex flex-col justify-center p-8">
+                            <span className="text-foreground/60 text-sm font-mono mb-4">
                                 {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                             </span>
-                            <h2 className="text-white text-4xl font-medium mb-4">
+                            <h2 className="text-foreground text-4xl font-light tracking-tight mb-4">
                                 {project.title}
                             </h2>
-                            <div className="flex flex-wrap gap-2 text-white/80 text-sm">
+                            <div className="flex flex-wrap gap-2 text-foreground/60 text-sm">
                                 <span>{project.category}</span>
-                                <span className="text-white/50">|</span>
+                                <span className="text-foreground/30">|</span>
                                 <span>{project.location}</span>
                             </div>
                         </div>
 
                         {/* Project Image */}
-                        <div className="px-8 pb-8">
+                        <div className="relative z-10 px-8 pb-8">
                             <img
                                 src={project.image}
                                 alt={project.title}
-                                className="w-full h-auto rounded-lg shadow-2xl"
+                                className="w-full h-auto rounded-xl shadow-2xl"
                             />
                         </div>
                     </div>
@@ -207,7 +211,7 @@ export function Projects() {
         <section
             ref={containerRef}
             id="work"
-            className="relative h-screen w-full overflow-hidden bg-[#0a0a0a]"
+            className="relative h-screen w-full overflow-hidden"
             style={{ perspective: "1500px" }}
         >
             {/* Slides Container */}
@@ -226,22 +230,31 @@ export function Projects() {
                             transformStyle: "preserve-3d",
                             backfaceVisibility: "hidden",
                             transformOrigin: "left center",
-                            backgroundColor: project.bgColor,
+                            backdropFilter: "blur(2px)",
                         }}
                     >
+                        {/* Glass overlay effect */}
+                        <div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                                background: "radial-gradient(ellipse at 30% 20%, var(--foreground) 0%, transparent 50%)",
+                                opacity: 0.04,
+                            }}
+                        />
+
                         {/* Content Layout - Left text, Right image */}
                         <div className="relative z-10 flex h-full items-center p-8 md:p-16 lg:p-24">
                             {/* Left Side - Text Content */}
                             <div className="flex-1 flex flex-col justify-center">
-                                <span className="text-white/80 text-sm font-mono mb-4">
+                                <span className="text-foreground/60 text-sm font-mono mb-4">
                                     {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                                 </span>
-                                <h2 className="text-white text-4xl md:text-6xl lg:text-7xl font-medium mb-4">
+                                <h2 className="text-foreground text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-4">
                                     {project.title}
                                 </h2>
-                                <div className="flex gap-4 text-white/80 text-sm md:text-base">
+                                <div className="flex gap-4 text-foreground/60 text-sm md:text-base">
                                     <span>{project.category}</span>
-                                    <span className="text-white/50">|</span>
+                                    <span className="text-foreground/30">|</span>
                                     <span>{project.location}</span>
                                 </div>
                             </div>
@@ -251,7 +264,7 @@ export function Projects() {
                                 <img
                                     src={project.image}
                                     alt={project.title}
-                                    className="max-w-full max-h-[70vh] w-auto h-auto rounded-lg shadow-2xl"
+                                    className="max-w-full max-h-[70vh] w-auto h-auto rounded-2xl shadow-2xl"
                                 />
                             </div>
                         </div>
@@ -270,8 +283,8 @@ export function Projects() {
                         className="group relative w-3 h-3"
                         aria-label={`Go to ${project.title}`}
                     >
-                        <span className="absolute inset-0 rounded-full bg-white/30" />
-                        <span className="absolute inset-0 rounded-full bg-[#3b82f6] scale-0" />
+                        <span className="absolute inset-0 rounded-full bg-foreground/30" />
+                        <span className="absolute inset-0 rounded-full bg-primary scale-0" />
                     </button>
                 ))}
             </nav>

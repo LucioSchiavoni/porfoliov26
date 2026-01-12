@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "role": "Desarrollador de Software",
+    "scroll": "Desliza para explorar"
+  },
+  "about": {
+    "title": "Sobre mi",
+    "description": "Desarrollador Fullstack con 2 anos de experiencia creando software escalable para la optimizacion de procesos institucionales y soluciones digitales modernas.",
+    "techTitle": "Tecnologias utilizadas:"
+  },
+  "experience": {
+    "title": "Mi experiencia",
+    "items": [
+      {
+        "date": "2025 - Presente",
+        "title": "Ciberseguridad",
+        "description": "Ministerio de Educacion y Cultura"
+      },
+      {
+        "date": "2024 - 2025",
+        "title": "Desarrollador de Software",
+        "description": "Ministerio de Educacion y Cultura"
+      },
+      {
+        "date": "2022 - 2025",
+        "title": "Freelancer",
+        "description": "Desarrollo Fullstack"
+      }
+    ]
+  },
+  "projects": {
+    "items": [
+      {
+        "title": "Digital Dental Lab",
+        "category": "Proyecto Freelance"
+      },
+      {
+        "title": "Todo en packaging",
+        "category": "Proyecto Freelance"
+      },
+      {
+        "title": "Repositorio de archivos",
+        "category": "Proyecto MEC"
+      },
+      {
+        "title": "Inventario de equipos",
+        "category": "Proyecto MEC"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Hablemos",
+    "subtitle": "/ponte en contacto",
+    "email": "Email",
+    "location": "Ubicacion",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "message": "Mensaje",
+      "namePlaceholder": "Tu nombre",
+      "emailPlaceholder": "tu@email.com",
+      "messagePlaceholder": "Cuentanos sobre tu proyecto...",
+      "sending": "Enviando...",
+      "send": "Enviar mensaje",
+      "success": "Mensaje enviado exitosamente!"
+    }
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mi",
+    "projects": "Proyectos",
+    "contact": "Contacto",
+    "sections": {
+      "introduction": "INTRODUCCION",
+      "about": "SOBRE MI",
+      "experience": "EXPERIENCIA",
+      "projects": "PROYECTOS",
+      "contact": "PONTE EN CONTACTO"
+    }
+  }
+}

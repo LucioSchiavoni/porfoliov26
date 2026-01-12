@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "role": "Software Developer",
+    "scroll": "Scroll to explore"
+  },
+  "about": {
+    "title": "About me",
+    "description": "Fullstack Developer with 2 years of experience creating scalable software for institutional process optimization and modern digital solutions.",
+    "techTitle": "Technologies used:"
+  },
+  "experience": {
+    "title": "My experience",
+    "items": [
+      {
+        "date": "2025 - Present",
+        "title": "Cybersecurity",
+        "description": "Ministry of Education and Culture"
+      },
+      {
+        "date": "2024 - 2025",
+        "title": "Software Development",
+        "description": "Ministry of Education and Culture"
+      },
+      {
+        "date": "2022 - 2025",
+        "title": "Freelancer",
+        "description": "Fullstack Development"
+      }
+    ]
+  },
+  "projects": {
+    "items": [
+      {
+        "title": "Digital Dental Lab",
+        "category": "Freelance Project"
+      },
+      {
+        "title": "Todo en packaging",
+        "category": "Freelance Project"
+      },
+      {
+        "title": "File Repository",
+        "category": "MEC Project"
+      },
+      {
+        "title": "Equipment Inventory",
+        "category": "MEC Project"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Let's talk",
+    "subtitle": "/get in touch",
+    "email": "Email",
+    "location": "Location",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "your@email.com",
+      "messagePlaceholder": "Tell us about your project...",
+      "sending": "Sending...",
+      "send": "Send message",
+      "success": "Message sent successfully!"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "sections": {
+      "introduction": "INTRODUCTION",
+      "about": "ABOUT ME",
+      "experience": "EXPERIENCE",
+      "projects": "PROJECTS",
+      "contact": "GET IN TOUCH"
+    }
+  }
+}

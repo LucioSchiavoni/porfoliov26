@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "role": "Softwareentwickler",
+    "scroll": "Scrollen zum Erkunden"
+  },
+  "about": {
+    "title": "Uber mich",
+    "description": "Fullstack-Entwickler mit 2 Jahren Erfahrung in der Erstellung skalierbarer Software zur Optimierung institutioneller Prozesse und moderner digitaler Losungen.",
+    "techTitle": "Verwendete Technologien:"
+  },
+  "experience": {
+    "title": "Meine Erfahrung",
+    "items": [
+      {
+        "date": "2025 - Heute",
+        "title": "Cybersicherheit",
+        "description": "Ministerium fur Bildung und Kultur"
+      },
+      {
+        "date": "2024 - 2025",
+        "title": "Softwareentwicklung",
+        "description": "Ministerium fur Bildung und Kultur"
+      },
+      {
+        "date": "2022 - 2025",
+        "title": "Freiberufler",
+        "description": "Fullstack-Entwicklung"
+      }
+    ]
+  },
+  "projects": {
+    "items": [
+      {
+        "title": "Digital Dental Lab",
+        "category": "Freiberufliches Projekt"
+      },
+      {
+        "title": "Todo en packaging",
+        "category": "Freiberufliches Projekt"
+      },
+      {
+        "title": "Datei-Repository",
+        "category": "MEC-Projekt"
+      },
+      {
+        "title": "Geratebestand",
+        "category": "MEC-Projekt"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "/kontaktieren",
+    "email": "E-Mail",
+    "location": "Standort",
+    "form": {
+      "name": "Name",
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "namePlaceholder": "Ihr Name",
+      "emailPlaceholder": "ihre@email.com",
+      "messagePlaceholder": "Erzahlen Sie uns von Ihrem Projekt...",
+      "sending": "Senden...",
+      "send": "Nachricht senden",
+      "success": "Nachricht erfolgreich gesendet!"
+    }
+  },
+  "nav": {
+    "home": "Startseite",
+    "about": "Uber mich",
+    "projects": "Projekte",
+    "contact": "Kontakt",
+    "sections": {
+      "introduction": "EINFUHRUNG",
+      "about": "UBER MICH",
+      "experience": "ERFAHRUNG",
+      "projects": "PROJEKTE",
+      "contact": "KONTAKT"
+    }
+  }
+}
