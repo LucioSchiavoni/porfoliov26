@@ -7,6 +7,42 @@ import { useLanguage } from "@/context/language-context"
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Icons
+const ExternalLinkIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <polyline points="15 3 21 3 21 9" />
+        <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+)
+
+const LockIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+)
+
 const projectsData = [
     {
         id: 1,
@@ -14,6 +50,8 @@ const projectsData = [
         location: "Nextjs, Typescript",
         year: "2025",
         image: "/screen-dentallab.png",
+        url: "https://www.digitaldentallab.uy/",
+        isPrivate: false,
     },
     {
         id: 2,
@@ -21,6 +59,8 @@ const projectsData = [
         location: "Nextjs, Sanity CMS, Typescript",
         year: "2025",
         image: "/screen-todo.png",
+        url: "https://todoenpackaging.com.uy/",
+        isPrivate: false,
     },
     {
         id: 3,
@@ -28,6 +68,8 @@ const projectsData = [
         location: "Nodejs, Mysql, React, Typescript",
         year: "2024",
         image: "/screen-rda.png",
+        url: null,
+        isPrivate: true,
     },
     {
         id: 4,
@@ -35,6 +77,8 @@ const projectsData = [
         location: "Nodejs, Mysql, React, Typescript",
         year: "2023",
         image: "/inventario-proyect.png",
+        url: null,
+        isPrivate: true,
     },
 ]
 
@@ -78,6 +122,7 @@ export function Projects() {
                         opacity: 1,
                         zIndex: totalSlides - index,
                         rotateZ: 0,
+                        pointerEvents: "auto",
                     })
                 } else {
                     gsap.set(slide, {
@@ -87,6 +132,7 @@ export function Projects() {
                         opacity: 0,
                         zIndex: totalSlides - index,
                         rotateZ: 0,
+                        pointerEvents: "none",
                     })
                 }
             })
@@ -134,6 +180,7 @@ export function Projects() {
                                     opacity: 1,
                                     zIndex: totalSlides,
                                     rotateZ: 0,
+                                    pointerEvents: "auto",
                                 })
                             } else {
                                 gsap.set(slide, {
@@ -143,6 +190,7 @@ export function Projects() {
                                     opacity: 0,
                                     zIndex: 0,
                                     rotateZ: -2,
+                                    pointerEvents: "none",
                                 })
                             }
                         })
@@ -164,6 +212,7 @@ export function Projects() {
                                 opacity: 0,
                                 zIndex: index,
                                 rotateZ: -2 - (stackOffset * 0.5),
+                                pointerEvents: "none",
                             })
                         } else if (index === currentSlideIndex) {
                             // Current card - moving up and left as it exits
@@ -174,6 +223,7 @@ export function Projects() {
                                 opacity: 1 - (slideProgress * 0.7),
                                 zIndex: totalSlides - index + 1,
                                 rotateZ: slideProgress * -2,
+                                pointerEvents: slideProgress < 0.5 ? "auto" : "none",
                             })
                         } else if (index === currentSlideIndex + 1) {
                             // Next card - coming from below
@@ -184,6 +234,7 @@ export function Projects() {
                                 opacity: slideProgress,
                                 zIndex: totalSlides - index + 2,
                                 rotateZ: 0,
+                                pointerEvents: slideProgress >= 0.5 ? "auto" : "none",
                             })
                         } else {
                             // Future cards - hidden below
@@ -194,6 +245,7 @@ export function Projects() {
                                 opacity: 0,
                                 zIndex: totalSlides - index,
                                 rotateZ: 0,
+                                pointerEvents: "none",
                             })
                         }
                     })
@@ -248,6 +300,22 @@ export function Projects() {
                                 alt={project.title}
                                 className="w-full max-w-[280px] h-auto rounded-lg shadow-md"
                             />
+                            {project.isPrivate ? (
+                                <div className="inline-flex items-center gap-2 text-foreground/40 text-xs mt-3">
+                                    <LockIcon />
+                                    <span>Proyecto privado</span>
+                                </div>
+                            ) : (
+                                <a
+                                    href={project.url!}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors w-fit"
+                                >
+                                    <span>Ver sitio</span>
+                                    <ExternalLinkIcon />
+                                </a>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -298,6 +366,24 @@ export function Projects() {
                                     <span>{project.category}</span>
                                     <span className="text-foreground/30">|</span>
                                     <span>{project.location}</span>
+                                </div>
+                                <div className="mt-6">
+                                    {project.isPrivate ? (
+                                        <div className="inline-flex items-center gap-2 px-4 py-2 border border-foreground/20 rounded-lg text-foreground/50 text-sm">
+                                            <LockIcon />
+                                            <span>Proyecto privado</span>
+                                        </div>
+                                    ) : (
+                                        <a
+                                            href={project.url!}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+                                        >
+                                            <span>Ver sitio</span>
+                                            <ExternalLinkIcon />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
 

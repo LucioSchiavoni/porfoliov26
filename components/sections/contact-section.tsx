@@ -100,13 +100,19 @@ export function ContactSection() {
                   }`}
                 style={{ transitionDelay: "500ms" }}
               >
-                {["Instagram", "LinkedIn", "Github"].map((social, i) => (
+                {[
+                  { name: "Instagram", url: "https://www.instagram.com/lucio_schiavoni/" },
+                  { name: "LinkedIn", url: "https://www.linkedin.com/in/lucioschiavoni/" },
+                  { name: "Github", url: "https://github.com/LucioSchiavoni" },
+                ].map((social) => (
                   <a
-                    key={social}
-                    href="#"
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="border-b border-transparent font-mono text-xs text-foreground transition-all hover:border-foreground/60 hover:text-foreground/90"
                   >
-                    {social}
+                    {social.name}
                   </a>
                 ))}
               </div>
