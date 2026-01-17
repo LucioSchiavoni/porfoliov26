@@ -29,6 +29,7 @@
     ]
   },
   "projects": {
+    "title": "My projects",
     "items": [
       {
         "title": "Digital Dental Lab",

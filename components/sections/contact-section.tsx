@@ -12,26 +12,38 @@ export function ContactSection() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       return
     }
 
     setIsSubmitting(true)
+    setSubmitError(false)
 
-    // Simulate form submission (replace with actual API call later)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
 
-    setIsSubmitting(false)
-    setSubmitSuccess(true)
-    setFormData({ name: "", email: "", message: "" })
+      if (!response.ok) {
+        throw new Error('Error al enviar')
+      }
 
-    // Reset success message after 5 seconds
-    setTimeout(() => setSubmitSuccess(false), 5000)
+      setSubmitSuccess(true)
+      setFormData({ name: "", email: "", message: "" })
+      setTimeout(() => setSubmitSuccess(false), 5000)
+    } catch {
+      setSubmitError(true)
+      setTimeout(() => setSubmitError(false), 5000)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -165,6 +177,9 @@ export function ContactSection() {
                 </button>
                 {submitSuccess && (
                   <p className="mt-3 text-center font-mono text-sm text-foreground/80">{t.contact.form.success}</p>
+                )}
+                {submitError && (
+                  <p className="mt-3 text-center font-mono text-sm text-red-500">Error al enviar el mensaje. Intenta de nuevo.</p>
                 )}
               </div>
             </form>

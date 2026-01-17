@@ -4,17 +4,17 @@ import { useRef, useEffect, useState } from "react"
 import Image from "next/image"
 import { motion, useInView, useScroll, useTransform, Variants } from "framer-motion"
 import gsap from "gsap"
-import { ReactIcon, NodeIcon, NestIcon, NextIcon, AwsIcon, DockerIcon } from "../icons"
 import { useLanguage } from "@/context/language-context"
 import { useTheme } from "@/components/theme-provider"
 
 const technologies = [
-    { name: "React", icon: ReactIcon, color: "#61DAFB" },
-    { name: "Node.js", icon: NodeIcon, color: "#339933" },
-    { name: "NestJS", icon: NestIcon, color: "#E0234E" },
-    { name: "Next.js", icon: NextIcon, color: "#FFFFFF" },
-    { name: "AWS", icon: AwsIcon, color: "#FF9900" },
-    { name: "Docker", icon: DockerIcon, color: "#2496ED" },
+    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original-wordmark.svg" },
+    { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-plain-wordmark.svg" },
+    { name: "NestJS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original-wordmark.svg" },
+    { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
+    { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
+    { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-plain-wordmark.svg" },
+    { name: "Go", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg" },
 ]
 
 export function AboutSection() {
@@ -209,13 +209,37 @@ export function AboutSection() {
                             }}
                         />
 
-                        <h2
-                            ref={titleRef}
-                            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 md:mb-8 font-sans font-light leading-[1.05] tracking-tight text-foreground"
-                            style={{ perspective: "1000px" }}
-                        >
-                            {t.about.title}
-                        </h2>
+                        <div className="flex items-center justify-between gap-6 mb-6 md:mb-8">
+                            <h2
+                                ref={titleRef}
+                                className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-light leading-[1.05] tracking-tight text-foreground flex-1"
+                                style={{ perspective: "1000px" }}
+                            >
+                                {t.about.title}
+                            </h2>
+
+                            {/* Mobile Image - Small and next to title */}
+                            <motion.div
+                                className="lg:hidden shrink-0 w-32 h-32 sm:w-36 sm:h-36 relative"
+                                style={{ scale: imageScale }}
+                            >
+                                <div
+                                    className="relative w-full h-full rounded-2xl overflow-hidden border border-foreground/10 shadow-2xl"
+                                    style={{
+                                        maskImage: "radial-gradient(circle at 50% 50%, black 0%, rgba(0,0,0,0.8) 70%, transparent 100%)",
+                                        WebkitMaskImage: "radial-gradient(circle at 50% 50%, black 0%, rgba(0,0,0,0.8) 70%, transparent 100%)",
+                                    }}
+                                >
+                                    <Image
+                                        src="/perfil2.jpg"
+                                        alt="Lucio Schiavoni"
+                                        fill
+                                        className="object-cover"
+                                        sizes="112px"
+                                    />
+                                </div>
+                            </motion.div>
+                        </div>
 
                         <p
                             ref={paragraphRef}
@@ -238,40 +262,62 @@ export function AboutSection() {
                                 {t.about.techTitle}
                             </motion.h3>
 
+                            {/* Mobile Slider */}
+                            <div className="lg:hidden overflow-hidden">
+                                <motion.div
+                                    className="flex gap-8"
+                                    animate={{
+                                        x: [0, -50 * technologies.length],
+                                    }}
+                                    transition={{
+                                        x: {
+                                            repeat: Infinity,
+                                            repeatType: "loop",
+                                            duration: 15,
+                                            ease: "linear",
+                                        },
+                                    }}
+                                >
+                                    {/* Duplicamos los iconos para crear el efecto infinito */}
+                                    {[...technologies, ...technologies, ...technologies].map((tech, index) => (
+                                        <div
+                                            key={`${tech.name}-${index}`}
+                                            className="flex-shrink-0 w-14 h-14 flex items-center justify-center"
+                                        >
+                                            <img
+                                                src={tech.icon}
+                                                alt={tech.name}
+                                                className="w-10 h-10 object-contain"
+                                            />
+                                        </div>
+                                    ))}
+                                </motion.div>
+                            </div>
+
+                            {/* Desktop Grid */}
                             <motion.div
-                                className="flex flex-wrap gap-4"
+                                className="hidden lg:flex flex-wrap gap-6"
                                 variants={containerVariants}
                                 initial="hidden"
                                 animate={isInView ? "visible" : "hidden"}
                             >
-                                {technologies.map((tech, index) => (
+                                {technologies.map((tech) => (
                                     <motion.div
                                         key={tech.name}
                                         variants={statVariants}
-                                        className="group relative"
-                                        whileHover={{ scale: 1.1, y: -5 }}
-                                        transition={{ type: "spring", stiffness: 400 }}
-                                        style={{
-                                            "--tech-color": tech.color,
-                                            "--tech-shadow": `${tech.color}40`
-                                        } as React.CSSProperties}
+                                        className="group relative cursor-pointer"
+                                        whileHover={{ scale: 1.15 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                     >
-                                        <div
-                                            className="w-14 h-14 flex items-center justify-center rounded-xl transition-all duration-300 bg-foreground/5 border border-foreground/10 group-hover:border-foreground/20 group-hover:bg-foreground/10 relative overflow-hidden"
-                                        >
-                                            {/* Glow effect on hover */}
-                                            <div
-                                                className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                                                style={{ backgroundColor: tech.color }}
-                                            />
-
-                                            <tech.icon
-                                                className="w-7 h-7 transition-all duration-300 text-foreground/60 group-hover:text-[var(--tech-color)] group-hover:drop-shadow-[0_0_5px_var(--tech-shadow)]"
-                                                style={{ color: "currentColor" }}
+                                        <div className="w-16 h-16 flex items-center justify-center">
+                                            <img
+                                                src={tech.icon}
+                                                alt={tech.name}
+                                                className="w-12 h-12 object-contain transition-transform duration-300"
                                             />
                                         </div>
                                         <span
-                                            className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-wider text-foreground/40 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap translate-y-2 group-hover:translate-y-0"
+                                            className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-wider text-foreground/60 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
                                         >
                                             {tech.name}
                                         </span>
@@ -284,7 +330,7 @@ export function AboutSection() {
                     {/* Right Column - Image with parallax */}
                     <motion.div
                         ref={imageContainerRef}
-                        className="flex-1 flex justify-center lg:justify-end"
+                        className="hidden lg:flex flex-1 justify-end"
                         style={{ y: imageY, scale: imageScale }}
                     >
                         <div

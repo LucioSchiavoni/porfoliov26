@@ -10,24 +10,28 @@ gsap.registerPlugin(ScrollTrigger)
 const projectsData = [
     {
         id: 1,
+        title: "Digital Dental Lab",
         location: "Nextjs, Typescript",
-        year: "2024",
+        year: "2025",
         image: "/screen-dentallab.png",
     },
     {
         id: 2,
+        title: "Todo en Packaging",
         location: "Nextjs, Sanity CMS, Typescript",
-        year: "2023",
+        year: "2025",
         image: "/screen-todo.png",
     },
     {
         id: 3,
+        title: "Repositorio de archivos",
         location: "Nodejs, Mysql, React, Typescript",
         year: "2024",
         image: "/screen-rda.png",
     },
     {
         id: 4,
+        title: "Inventario de equipos",
         location: "Nodejs, Mysql, React, Typescript",
         year: "2023",
         image: "/inventario-proyect.png",
@@ -39,7 +43,7 @@ export function Projects() {
 
     const projects = projectsData.map((project, index) => ({
         ...project,
-        title: t.projects.items[index]?.title || project.id.toString(),
+        title: t.projects.items[index]?.title || project.title,
         category: t.projects.items[index]?.category || "",
     }))
     const containerRef = useRef<HTMLDivElement>(null)
@@ -55,7 +59,7 @@ export function Projects() {
         return () => window.removeEventListener("resize", checkMobile)
     }, [])
 
-    // GSAP ScrollTrigger with 3D flip animation
+    // GSAP ScrollTrigger with cascade/stack animation
     useEffect(() => {
         if (isMobile === null || isMobile) return
 
@@ -63,13 +67,27 @@ export function Projects() {
             const totalSlides = projects.length
             const totalTransitions = totalSlides - 1
 
-            // Set initial states
+            // Set initial states - cards stacked with offset
             slidesRef.current.forEach((slide, index) => {
                 if (!slide) return
                 if (index === 0) {
-                    gsap.set(slide, { rotateY: 0, opacity: 1, zIndex: totalSlides })
+                    gsap.set(slide, {
+                        y: 0,
+                        x: 0,
+                        scale: 1,
+                        opacity: 1,
+                        zIndex: totalSlides - index,
+                        rotateZ: 0,
+                    })
                 } else {
-                    gsap.set(slide, { rotateY: -90, opacity: 0, zIndex: totalSlides - index })
+                    gsap.set(slide, {
+                        y: 100,
+                        x: 0,
+                        scale: 0.95,
+                        opacity: 0,
+                        zIndex: totalSlides - index,
+                        rotateZ: 0,
+                    })
                 }
             })
 
@@ -85,17 +103,15 @@ export function Projects() {
                 start: "top top",
                 end: `+=${totalTransitions * 100}%`,
                 pin: true,
-                scrub: 0.5,
+                scrub: 0.3,
                 anticipatePin: 1,
                 onUpdate: (self) => {
                     const progress = self.progress
                     const rawSlideIndex = progress * totalTransitions
                     const currentSlideIndex = Math.min(Math.floor(rawSlideIndex), totalTransitions - 1)
-
-                    // Asegurar que el último índice se maneje correctamente
                     const activeIdx = Math.round(rawSlideIndex)
 
-                    // Update dots directly without re-render
+                    // Update dots
                     dotsRef.current.forEach((dot, index) => {
                         if (!dot) return
                         const bg = dot.querySelector('span:last-child')
@@ -106,14 +122,28 @@ export function Projects() {
                         }
                     })
 
-                    // Handle final state lock
+                    // Handle final state
                     if (progress >= 0.99) {
                         slidesRef.current.forEach((slide, index) => {
                             if (!slide) return
                             if (index === totalSlides - 1) {
-                                gsap.set(slide, { rotateY: 0, opacity: 1, zIndex: totalSlides })
+                                gsap.set(slide, {
+                                    y: 0,
+                                    x: 0,
+                                    scale: 1,
+                                    opacity: 1,
+                                    zIndex: totalSlides,
+                                    rotateZ: 0,
+                                })
                             } else {
-                                gsap.set(slide, { rotateY: 90, opacity: 0, zIndex: 0 })
+                                gsap.set(slide, {
+                                    y: -150,
+                                    x: -30,
+                                    scale: 0.85,
+                                    opacity: 0,
+                                    zIndex: 0,
+                                    rotateZ: -2,
+                                })
                             }
                         })
                         return
@@ -125,25 +155,46 @@ export function Projects() {
                         if (!slide) return
 
                         if (index < currentSlideIndex) {
-                            // Already passed
-                            gsap.set(slide, { rotateY: 90, opacity: 0, zIndex: 0 })
-                        } else if (index === currentSlideIndex) {
-                            // Current - exiting
+                            // Already passed - stacked behind and up-left
+                            const stackOffset = currentSlideIndex - index
                             gsap.set(slide, {
-                                rotateY: slideProgress * 90,
-                                opacity: 1 - slideProgress * 0.5,
-                                zIndex: totalSlides - index,
+                                y: -150 - (stackOffset * 20),
+                                x: -30 - (stackOffset * 10),
+                                scale: 0.85 - (stackOffset * 0.03),
+                                opacity: 0,
+                                zIndex: index,
+                                rotateZ: -2 - (stackOffset * 0.5),
+                            })
+                        } else if (index === currentSlideIndex) {
+                            // Current card - moving up and left as it exits
+                            gsap.set(slide, {
+                                y: slideProgress * -150,
+                                x: slideProgress * -30,
+                                scale: 1 - (slideProgress * 0.15),
+                                opacity: 1 - (slideProgress * 0.7),
+                                zIndex: totalSlides - index + 1,
+                                rotateZ: slideProgress * -2,
                             })
                         } else if (index === currentSlideIndex + 1) {
-                            // Next - entering
+                            // Next card - coming from below
                             gsap.set(slide, {
-                                rotateY: -90 + slideProgress * 90,
-                                opacity: 0.5 + slideProgress * 0.5,
-                                zIndex: totalSlides - index + 1,
+                                y: 100 - (slideProgress * 100),
+                                x: 0,
+                                scale: 0.95 + (slideProgress * 0.05),
+                                opacity: slideProgress,
+                                zIndex: totalSlides - index + 2,
+                                rotateZ: 0,
                             })
                         } else {
-                            // Future
-                            gsap.set(slide, { rotateY: -90, opacity: 0, zIndex: 0 })
+                            // Future cards - hidden below
+                            gsap.set(slide, {
+                                y: 100,
+                                x: 0,
+                                scale: 0.95,
+                                opacity: 0,
+                                zIndex: totalSlides - index,
+                                rotateZ: 0,
+                            })
                         }
                     })
                 },
@@ -160,49 +211,46 @@ export function Projects() {
         )
     }
 
-    // Mobile fallback - simple scroll with snap
+    // Mobile - simple list without animations
     if (isMobile === true) {
         return (
-            <section id="work">
-                {projects.map((project, index) => (
-                    <div
-                        key={project.id}
-                        className="relative h-screen w-full overflow-hidden flex flex-col"
-                    >
-                        {/* Glass overlay effect */}
+            <section id="work" className="py-16 px-6">
+                <h2 className="text-2xl font-light tracking-tight text-foreground mb-8">
+                    {t.projects.title}
+                </h2>
+                <div className="flex flex-col gap-8">
+                    {projects.map((project, index) => (
                         <div
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                                background: "radial-gradient(ellipse at 30% 20%, var(--foreground) 0%, transparent 50%)",
-                                opacity: 0.04,
-                            }}
-                        />
-
-                        {/* Content */}
-                        <div className="relative z-10 flex-1 flex flex-col justify-center p-8">
-                            <span className="text-foreground/60 text-sm font-mono mb-4">
-                                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-                            </span>
-                            <h2 className="text-foreground text-4xl font-light tracking-tight mb-4">
-                                {project.title}
-                            </h2>
-                            <div className="flex flex-wrap gap-2 text-foreground/60 text-sm">
-                                <span>{project.category}</span>
-                                <span className="text-foreground/30">|</span>
-                                <span>{project.location}</span>
+                            key={project.id}
+                            className="flex flex-col gap-4 pb-8 border-b border-foreground/10 last:border-b-0"
+                        >
+                            <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1">
+                                    <span className="text-foreground/40 text-xs font-mono">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3 className="text-foreground text-lg font-medium mt-1">
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-foreground/60 text-sm mt-1">
+                                        {project.category}
+                                    </p>
+                                </div>
+                                <span className="text-foreground/40 text-xs font-mono">
+                                    {project.year}
+                                </span>
                             </div>
-                        </div>
-
-                        {/* Project Image */}
-                        <div className="relative z-10 px-8 pb-8">
+                            <p className="text-foreground/50 text-xs">
+                                {project.location}
+                            </p>
                             <img
                                 src={project.image}
                                 alt={project.title}
-                                className="w-full h-auto rounded-xl shadow-2xl"
+                                className="w-full max-w-[280px] h-auto rounded-lg shadow-md"
                             />
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </section>
         )
     }
@@ -212,25 +260,19 @@ export function Projects() {
             ref={containerRef}
             id="work"
             className="relative h-screen w-full overflow-hidden"
-            style={{ perspective: "1500px" }}
         >
             {/* Slides Container */}
-            <div
-                className="relative h-full w-full"
-                style={{ transformStyle: "preserve-3d" }}
-            >
+            <div className="relative h-full w-full">
                 {projects.map((project, index) => (
                     <div
                         key={project.id}
                         ref={(el) => {
                             slidesRef.current[index] = el
                         }}
-                        className="absolute inset-0 h-full w-full"
+                        className="absolute inset-0 h-full w-full bg-background"
                         style={{
-                            transformStyle: "preserve-3d",
-                            backfaceVisibility: "hidden",
-                            transformOrigin: "left center",
-                            backdropFilter: "blur(2px)",
+                            transformOrigin: "center top",
+                            boxShadow: "0 -10px 40px -10px rgba(0,0,0,0.3)",
                         }}
                     >
                         {/* Glass overlay effect */}

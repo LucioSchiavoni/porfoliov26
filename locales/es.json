@@ -5,7 +5,7 @@
   },
   "about": {
     "title": "Sobre mi",
-    "description": "Desarrollador Fullstack con 2 anos de experiencia creando software escalable para la optimizacion de procesos institucionales y soluciones digitales modernas.",
+    "description": "Desarrollador Fullstack con 2 años de experiencia creando software escalable para la optimizacion de procesos institucionales y soluciones digitales modernas.",
     "techTitle": "Tecnologias utilizadas:"
   },
   "experience": {
@@ -29,6 +29,7 @@
     ]
   },
   "projects": {
+    "title": "Mis proyectos",
     "items": [
       {
         "title": "Digital Dental Lab",
@@ -49,7 +50,7 @@
     ]
   },
   "contact": {
-    "title": "Hablemos",
+    "title": "Charlemos",
     "subtitle": "/ponte en contacto",
     "email": "Email",
     "location": "Ubicacion",
