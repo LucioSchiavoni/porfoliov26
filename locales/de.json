@@ -5,26 +5,21 @@
   },
   "about": {
     "title": "Uber mich",
-    "description": "Softwareentwickler mit 2 Jahren Erfahrung in der Erstellung skalierbarer Software zur Optimierung institutioneller Prozesse und moderner digitaler Losungen.",
+    "description": "Softwareentwickler mit 3 Jahren Erfahrung in der Erstellung skalierbarer Software zur Optimierung institutioneller Prozesse und moderner digitaler Losungen.",
     "techTitle": "Verwendete Technologien:"
   },
   "experience": {
     "title": "Meine Erfahrung",
     "items": [
       {
-        "date": "2025 - Heute",
-        "title": "Cybersicherheit",
+        "date": "2023 - Heute",
+        "title": "Fullstack-Entwickler",
         "description": "Ministerium fur Bildung und Kultur"
       },
       {
-        "date": "2024 - 2025",
-        "title": "Softwareentwicklung",
-        "description": "Ministerium fur Bildung und Kultur"
-      },
-      {
-        "date": "2022 - 2025",
-        "title": "Freiberufler",
-        "description": "Fullstack-Entwicklung"
+        "date": "2022 - Heute",
+        "title": "Freiberuflicher Entwickler",
+        "description": "Unabhangige Projekte"
       }
     ]
   },

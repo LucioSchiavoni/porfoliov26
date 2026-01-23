@@ -5,26 +5,21 @@
   },
   "about": {
     "title": "Sobre mi",
-    "description": "Desarrollador de Software con 2 años de experiencia creando software escalable para la optimizacion de procesos institucionales y soluciones digitales modernas.",
+    "description": "Desarrollador de Software con 3 años de experiencia creando software escalable para la optimizacion de procesos institucionales y soluciones digitales modernas.",
     "techTitle": "Tecnologias utilizadas:"
   },
   "experience": {
     "title": "Mi experiencia",
     "items": [
       {
-        "date": "2025 - Presente",
-        "title": "Ciberseguridad",
+        "date": "2023 - Presente",
+        "title": "Desarrollador Fullstack",
         "description": "Ministerio de Educacion y Cultura"
       },
       {
-        "date": "2024 - 2025",
-        "title": "Desarrollador de Software",
-        "description": "Ministerio de Educacion y Cultura"
-      },
-      {
-        "date": "2022 - 2025",
-        "title": "Freelancer",
-        "description": "Desarrollo Fullstack"
+        "date": "2022 - Presente",
+        "title": "Desarrollador Freelance",
+        "description": "Proyectos independientes"
       }
     ]
   },

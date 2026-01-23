@@ -5,26 +5,21 @@
   },
   "about": {
     "title": "About me",
-    "description": "Software Developer with 2 years of experience creating scalable software for institutional process optimization and modern digital solutions.",
+    "description": "Software Developer with 3 years of experience creating scalable software for institutional process optimization and modern digital solutions.",
     "techTitle": "Technologies used:"
   },
   "experience": {
     "title": "My experience",
     "items": [
       {
-        "date": "2025 - Present",
-        "title": "Cybersecurity",
+        "date": "2023 - Present",
+        "title": "Fullstack Developer",
         "description": "Ministry of Education and Culture"
       },
       {
-        "date": "2024 - 2025",
-        "title": "Software Development",
-        "description": "Ministry of Education and Culture"
-      },
-      {
-        "date": "2022 - 2025",
-        "title": "Freelancer",
-        "description": "Fullstack Development"
+        "date": "2022 - Present",
+        "title": "Freelance Developer",
+        "description": "Independent projects"
       }
     ]
   },
