@@ -54,6 +54,15 @@ const projectsData = [
         isPrivate: false,
     },
     {
+        id: 5,
+        title: "LISA 2.0",
+        location: "Nextjs 16, Supabase",
+        year: "2025",
+        image: "/lisa-project.png",
+        url: null,
+        isPrivate: true,
+    },
+    {
         id: 2,
         title: "Todo en Packaging",
         location: "Nextjs, Sanity CMS, Typescript",
