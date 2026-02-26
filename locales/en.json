@@ -12,8 +12,13 @@
     "title": "My experience",
     "items": [
       {
-        "date": "2023 - Present",
-        "title": "Fullstack Developer",
+        "date": "2024 - Present",
+        "title": "Cybersecurity",
+        "description": "Ministry of Education and Culture"
+      },
+      {
+        "date": "2023 - 2024",
+        "title": "Software Developer",
         "description": "Ministry of Education and Culture"
       },
       {

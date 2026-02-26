@@ -12,8 +12,13 @@
     "title": "Meine Erfahrung",
     "items": [
       {
-        "date": "2023 - Heute",
-        "title": "Fullstack-Entwickler",
+        "date": "2024 - Heute",
+        "title": "Cybersicherheit",
+        "description": "Ministerium fur Bildung und Kultur"
+      },
+      {
+        "date": "2023 - 2024",
+        "title": "Softwareentwickler",
         "description": "Ministerium fur Bildung und Kultur"
       },
       {

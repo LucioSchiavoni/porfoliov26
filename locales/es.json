@@ -11,9 +11,14 @@
   "experience": {
     "title": "Mi experiencia",
     "items": [
+             {
+        "date": "2024 - Presente",
+        "title": "Ciberseguridad",
+        "description": "Ministerio de Educacion y Cultura"
+      },
       {
-        "date": "2023 - Presente",
-        "title": "Desarrollador Fullstack",
+        "date": "2023 - 2024",
+        "title": "Desarrollador de Software",
         "description": "Ministerio de Educacion y Cultura"
       },
       {
